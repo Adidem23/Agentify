@@ -38,7 +38,7 @@ const NewNav = () => {
         <div className="flex w-full justify-between items-center gap-x-4">
         <NavLink href="#services">Home</NavLink>
         <NavLink href="#about">Features</NavLink>
-          <p className="text-3xl text-white font-semibold">AI Agents</p>
+          <p className="text-3xl text-white font-semibold">Agentify</p>
           <NavLink href="/profile">Profile</NavLink>
           <NavLink>{User.user.firstName}</NavLink>
           <NavLink><img src={User.user.imageUrl} width={"60px"} height={"50px"} style={{borderRadius:"50%"}}/></NavLink>

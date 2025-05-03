@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect ,useRef } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "../pages/Sidebar";
-import {
-  IconArrowLeft,
-  IconSettings,
-  IconUserBolt,
-} from "@tabler/icons-react";
+import { IconUserBolt } from "@tabler/icons-react";
+import { AwardIcon, Send } from "lucide-react"
 import { cn } from "../lib/utils";
-import { useUser } from '@clerk/clerk-react';
+import { SignOutButton, useUser } from '@clerk/clerk-react';
+import axios from "axios";
 import { motion } from "framer-motion";
+import ChatMessage from "./ChatMessage";
+
 
 export function SidebarDemo() {
 
@@ -20,28 +20,13 @@ export function SidebarDemo() {
       icon: (
         <IconUserBolt className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
-    },
-    {
-      label: "Previous Chats",
-      href: "#",
-      icon: (
-        <IconSettings className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
-      ),
-    },
-    {
-      label: "Logout",
-      href: "#",
-      icon: (
-        <IconArrowLeft className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
-      ),
-    },
+    }
   ];
   const [open, setOpen] = useState(false);
   return (
     <div
       className={cn(
-        "mx-auto flex w-full max-w-7xl flex-1 flex-col overflow-hidden rounded-md border border-neutral-200 bg-gray-100 md:flex-row dark:border-neutral-700 dark:bg-neutral-800",
-        // for your use case, use `h-screen` instead of `h-[60vh]`
+        "flex w-full  flex-1 flex-col overflow-hidden  border border-neutral-200 bg-gray-100 md:flex-row dark:border-neutral-700 dark:bg-neutral-800",
         "h-[100vh] w-full]"
       )}>
       <Sidebar open={open} setOpen={setOpen} animate={false}>
@@ -50,14 +35,14 @@ export function SidebarDemo() {
             <>
               <Logo />
             </>
-            <div className="mt-8 flex flex-col gap-2">
+            <div className="mt-8 flex flex-col gap-2" >
               {links.map((link, idx) => (
                 <SidebarLink key={idx} link={link} />
               ))}
             </div>
           </div>
-          <div>
-          <SidebarLink
+          <div className="flex flex-row">
+            <SidebarLink
               link={{
                 label: `${user && user.fullName}`,
                 href: "#",
@@ -69,7 +54,13 @@ export function SidebarDemo() {
                     height={50}
                     alt="Avatar" />
                 ),
+              
               }} />
+
+             <SignOutButton className="mt-4 ml-7">
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e7d5d5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+             </SignOutButton>
+
           </div>
         </SidebarBody>
       </Sidebar>
@@ -82,13 +73,12 @@ export const Logo = () => {
     <a
       href="#"
       className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black">
-      <div
-        className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
+
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="font-medium whitespace-pre text-black dark:text-white">
-        AI Agents
+        className="font-medium whitespace-pre text-black dark:text-white" style={{ fontSize: '20px' }}>
+        Agentify DB Agents
       </motion.span>
     </a>
   );
@@ -104,24 +94,111 @@ export const LogoIcon = () => {
   );
 };
 
-// Dummy dashboard component with content
-const Dashboard = () => {
+function Dashboard() {
+
   return (
-    <div className="flex flex-1 bg-white">
-       <div className="fixed bottom-0 left-118 w-241 bg-white p-4 border-t border-gray-300 ">
-       <div className="flex items-center max-w-2xl mx-auto">
-        <textarea
-          className="flex-1 resize-none p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-purple-500 text-sm"
-          rows="1"
-          placeholder="Type your message..."
-        />
-        <button
-          className="ml-2 p-3 bg-purple-600 hover:bg-purple-700 text-white rounded-lg flex items-center justify-center"
-        >
-          Send
-        </button>
-      </div> 
-    </div> 
+    <div className="min-h-screen w-full bg-black flex flex-col items-center justify-center p-4">    
+       <ChatInterface />
     </div>
-  );
-};
+  )
+}
+
+
+
+
+function ChatInterface() {
+  const[messages, setMessages] = useState([])
+  const [input, setInput] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const messagesEndRef = useRef(null)
+  const [chatAnswer, setchatAnswer] = useState("")
+
+  useEffect(() => {
+    scrollToBottom()
+  }, [messages])
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
+  }
+
+  const handleInputChange = (e) => {
+    setInput(e.target.value)
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+
+    if (!input.trim()) return
+
+    const userMessage = {
+      id: Date.now(),
+      role: "user",
+      content: input,
+    }
+
+    setMessages((prev) => [...prev, userMessage])
+    setInput("")
+    setIsLoading(true)
+
+    
+    setTimeout(() => {
+      const botMessage = {
+        id: Date.now() + 1,
+        role: "assistant",
+        content: `${chatAnswer}`
+      }
+
+      setMessages((prev) => [...prev, botMessage])
+      setIsLoading(false)
+    }, 1000)
+  }
+
+  return (
+    <div className="flex flex-col w-full  h-full bg-black text-white">
+      
+      <div className="flex-1 overflow-y-auto p-4 space-y-4">
+        {messages.length === 0 ? (
+          <div className="flex items-center justify-center h-full">
+             <h1 className="text-white text-5xl md:text-6xl font-bold mb-12 text-center">What can I help you ship?</h1>
+          </div>
+        ) : (
+          messages.map((message) => <ChatMessage key={message.id} role={message.role} content={message.content} />)
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+
+      
+      <div className=" p-4">
+        <form onSubmit={handleSubmit} className="flex items-center space-x-2">
+          <div className="relative flex-1">
+            <input
+              type="text"
+              value={input}
+              onChange={handleInputChange}
+              placeholder="Ask DB Agent a Task"
+              className="w-full p-3 pr-10 bg-gray-900 border border-gray-800 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700"
+            />
+          </div>
+          <button
+            onClick={async (e)=>{
+              e.preventDefault()
+              await axios.post("http://localhost:1302/api/getGithubAgentResponse",{query:input}).then((res)=>{
+                setchatAnswer(res.data)
+              })
+            }}
+            type="submit"
+            disabled={isLoading || !input.trim()}
+            className="p-3 rounded-md bg-gray-800 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"
+            aria-label="Send message"
+          >
+            <Send size={18} />
+          </button>
+        </form>
+      </div>
+
+
+    </div>
+  )
+}
+
+
