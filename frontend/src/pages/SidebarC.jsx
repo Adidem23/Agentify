@@ -1,4 +1,4 @@
-import React, { useState ,useEffect ,useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Sidebar, SidebarBody, SidebarLink } from "../pages/Sidebar";
 import { IconUserBolt } from "@tabler/icons-react";
 import { AwardIcon, Send } from "lucide-react"
@@ -54,12 +54,12 @@ export function SidebarDemo() {
                     height={50}
                     alt="Avatar" />
                 ),
-              
+
               }} />
 
-             <SignOutButton className="mt-4 ml-7">
-             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e7d5d5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
-             </SignOutButton>
+            <SignOutButton className="mt-4 ml-7">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#e7d5d5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-log-out-icon lucide-log-out"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" x2="9" y1="12" y2="12" /></svg>
+            </SignOutButton>
 
           </div>
         </SidebarBody>
@@ -97,8 +97,8 @@ export const LogoIcon = () => {
 function Dashboard() {
 
   return (
-    <div className="min-h-screen w-full bg-black flex flex-col items-center justify-center p-4">    
-       <ChatInterface />
+    <div className="min-h-screen w-full bg-black flex flex-col items-center justify-center p-4">
+      <ChatInterface />
     </div>
   )
 }
@@ -107,11 +107,10 @@ function Dashboard() {
 
 
 function ChatInterface() {
-  const[messages, setMessages] = useState([])
+  const [messages, setMessages] = useState([])
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef(null)
-  const [chatAnswer, setchatAnswer] = useState("")
 
   useEffect(() => {
     scrollToBottom()
@@ -140,26 +139,56 @@ function ChatInterface() {
     setInput("")
     setIsLoading(true)
 
-    
-    setTimeout(() => {
-      const botMessage = {
-        id: Date.now() + 1,
-        role: "assistant",
-        content: `${chatAnswer}`
-      }
 
-      setMessages((prev) => [...prev, botMessage])
-      setIsLoading(false)
-    }, 1000)
+    try {
+
+      const response = await axios.post("http://localhost:1302/api/getGithubAgentResponse", { query: input })
+
+
+      
+      if (response.data) {
+
+        console.log("Response from server:", response.data);
+
+        const botMessage = {
+          id: Date.now() + 1,
+          role: "assistant",
+          content: `${response.data}`
+        }
+
+        setMessages((prev) => [...prev, botMessage])
+        setIsLoading(false)
+      }
+    } catch (err) {
+      console.log(err)
+    }
+
+
+
+
+    // setTimeout(() => {
+    //   const botMessage = {
+    //     id: Date.now() + 1,
+    //     role: "assistant",
+    //     content: `${chatAnswer}`
+    //   }
+
+    //   setMessages((prev) => [...prev, botMessage])
+    //   setIsLoading(false)
+    // }, 1000)
+
+
+
+
   }
 
   return (
     <div className="flex flex-col w-full  h-full bg-black text-white">
-      
+
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 ? (
           <div className="flex items-center justify-center h-full">
-             <h1 className="text-white text-5xl md:text-6xl font-bold mb-12 text-center">What can I help you ship?</h1>
+            <h1 className="text-white text-5xl md:text-6xl font-bold mb-12 text-center">What can I help you ship?</h1>
           </div>
         ) : (
           messages.map((message) => <ChatMessage key={message.id} role={message.role} content={message.content} />)
@@ -167,7 +196,7 @@ function ChatInterface() {
         <div ref={messagesEndRef} />
       </div>
 
-      
+
       <div className=" p-4">
         <form onSubmit={handleSubmit} className="flex items-center space-x-2">
           <div className="relative flex-1">
@@ -180,12 +209,6 @@ function ChatInterface() {
             />
           </div>
           <button
-            onClick={async (e)=>{
-              e.preventDefault()
-              await axios.post("http://localhost:1302/api/getGithubAgentResponse",{query:input}).then((res)=>{
-                setchatAnswer(res.data)
-              })
-            }}
             type="submit"
             disabled={isLoading || !input.trim()}
             className="p-3 rounded-md bg-gray-800 hover:bg-gray-700 disabled:opacity-50 disabled:cursor-not-allowed"

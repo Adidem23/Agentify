@@ -10,8 +10,7 @@ exports.getGithubAgentResponse= async (req, res) => {
     console.log(userQuery);
     try {
         const response = await processQuery(userQuery);
-        console.log(response);
-        res.status(200).json({ response });
+        res.send(response);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });

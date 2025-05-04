@@ -550,18 +550,12 @@ async function processQuery(query) {
             }
         }
 
+
     }
+
+   await transport.close()
 }
 
-// async function main() {
-//     const response = await processQuery("create a new issue in crocodiloBOmardido repo of  AthuWarrior GitHub . The issue title is 'New Issue' and the body is 'This is a new issue created by the bot.'");
-//     console.log("Response:", response);
-// }
-
-// main().catch((error) => {
-//     console.error("Error:", error);
-// }
-// );
 
 module.exports ={
     processQuery: processQuery,
