@@ -21,6 +21,7 @@ export function SidebarDemo() {
         <IconUserBolt className="h-5 w-5 shrink-0 text-neutral-700 dark:text-neutral-200" />
       ),
     }
+
   ];
   const [open, setOpen] = useState(false);
   return (
@@ -33,7 +34,10 @@ export function SidebarDemo() {
         <SidebarBody className="justify-between gap-10">
           <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
             <>
-              <Logo />
+            <div className="flex flex-row px-2 py-2">
+            <LogoIcon/>
+            <Logo  />
+            </div>
             </>
             <div className="mt-8 flex flex-col gap-2" >
               {links.map((link, idx) => (
@@ -77,9 +81,10 @@ export const Logo = () => {
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        className="font-medium whitespace-pre text-black dark:text-white" style={{ fontSize: '20px' }}>
-        Agentify DB Agents
+        className="font-medium whitespace-pre text-black dark:text-white ml-5" style={{ fontSize: '20px' }}>
+         Github Agent
       </motion.span>
+
     </a>
   );
 };
@@ -163,9 +168,6 @@ function ChatInterface() {
       console.log(err)
     }
 
-
-
-
     // setTimeout(() => {
     //   const botMessage = {
     //     id: Date.now() + 1,
@@ -176,8 +178,6 @@ function ChatInterface() {
     //   setMessages((prev) => [...prev, botMessage])
     //   setIsLoading(false)
     // }, 1000)
-
-
 
 
   }
@@ -204,7 +204,7 @@ function ChatInterface() {
               type="text"
               value={input}
               onChange={handleInputChange}
-              placeholder="Ask DB Agent a Task"
+              placeholder="Ask Github Agent 🤖 a Task ..." 
               className="w-full p-3 pr-10 bg-gray-900 border border-gray-800 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700"
             />
           </div>
@@ -223,5 +223,3 @@ function ChatInterface() {
     </div>
   )
 }
-
-

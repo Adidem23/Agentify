@@ -36,7 +36,7 @@ const Navbar = () => {
         <div className="flex w-full justify-between items-center">
           <NavLink href="#home">Home</NavLink>
           <NavLink href="#feature">Features</NavLink>
-          <p className="text-3xl text-white font-semibold">AI Agents</p>
+          <p className="text-3xl text-white font-semibold">Agentify</p>
           <NavLink href="#footer">Contact</NavLink>
           <NavLink><SignInButton/></NavLink>
 

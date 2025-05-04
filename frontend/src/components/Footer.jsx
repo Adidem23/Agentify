@@ -25,7 +25,7 @@ const Footer = () => {
             style={{ y }}
           >
             <p className="text-[120px] md:text-[160px] lg:text-[210px] font-serif mt-4 text-transparent bg-gradient-to-b from-white to-neutral-700 bg-clip-text">
-              AI Agents
+              Agentify
             </p>
           </motion.div>
         </div>

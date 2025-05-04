@@ -14,10 +14,10 @@ const CardPage = () => {
 
             {/* Grid */}
             <div className="grid grid-cols-3 gap-6">
+                <GithubDemoCards />
                 <DBCardDemo />
                 <GmailCardDemo />
                 <CodeDebuggerCardDemo />
-                <GithubDemoCards />
                 <TicketingAgentsCardDemo />
             </div>
         </div>

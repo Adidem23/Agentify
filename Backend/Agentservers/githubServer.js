@@ -553,7 +553,6 @@ async function processQuery(query) {
 
     }
 
-   await transport.close()
 }
 
 
