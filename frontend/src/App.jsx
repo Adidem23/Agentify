@@ -4,7 +4,8 @@ import LandingPage from "./pages/LandingPage";
 import { Routes, Route } from "react-router-dom";
 import UserProfileO from "./components/UserProfileO";
 import CardPage from "./pages/CardPage";
-import { SidebarDemo } from "./pages/SidebarC";
+import { SidebarDemo } from "./pages/SidebarGithub";
+import { SidebarDemoMongo } from "./pages/SidebarMongoDB";
 
 function App() {
   return (
@@ -19,7 +20,8 @@ function App() {
         <Route path="/" element={<LandingPage />} />
         <Route path="/profile" element={<UserProfileO />} />
         <Route path="/card" element={<CardPage />} />
-        <Route path="/side" Component={SidebarDemo} />
+        <Route path="/Github" Component={SidebarDemo} />
+        <Route path="/MongoDb" Component={SidebarDemoMongo} />
       </Routes>
     </ReactLenis>
   );

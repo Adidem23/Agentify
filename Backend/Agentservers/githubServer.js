@@ -555,7 +555,6 @@ async function processQuery(query) {
 
 }
 
-
 module.exports ={
     processQuery: processQuery,
 }

@@ -1,13 +1,13 @@
-const {processQuery} =require('../Agentservers/githubServer.js')
-const {processWebQuery} =require('../Agentservers/exaWebSearch.js')
-const {processLocalMongoDB}=require('../Agentservers/localMongoDB.js')
-const {processPSQLQuery}=require('../Agentservers/neonPostSql.js')
+const { processQuery } = require('../Agentservers/githubServer.js')
+const { processLocalMongoDB } = require('../Agentservers/localMongoDB.js')
+const DBChatsMetadata = require('../models/Dbchats.js');
+const GithubChatsMetadata = require('../models/GithubAgentchats.js');
 
 exports.BreatingMessage = (req, res) => {
     res.send("<h1>Hola Amigos!! Agentify is Ready to Serve you!!</h1>");
 }
 
-exports.getGithubAgentResponse= async (req, res) => { 
+exports.getGithubAgentResponse = async (req, res) => {
     const userQuery = req.body.query;
     console.log(userQuery);
     try {
@@ -19,20 +19,8 @@ exports.getGithubAgentResponse= async (req, res) => {
     }
 }
 
-exports.getExaWebSearchResponse= async (req, res) => { 
-    const userQuery = req.body.query;
-    console.log(userQuery);
-    try {
-        const response = await processWebQuery(userQuery);
-        res.send(response);
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-}
 
-
-exports.getLocalMongoDbSearch= async (req, res) => { 
+exports.getLocalMongoDbSearch = async (req, res) => {
     const userQuery = req.body.query;
     console.log(userQuery);
     try {
@@ -44,12 +32,73 @@ exports.getLocalMongoDbSearch= async (req, res) => {
     }
 }
 
-exports.getPQSQLExecution= async (req, res) => { 
-    const userQuery = req.body.query;
-    console.log(userQuery);
+
+function generateTitleFromPrompt(prompt) {
+    const trimmed = prompt.trim();
+    const firstSentence = trimmed.split(/[.?!]/)[0]; // Split on sentence-ending punctuation
+    return firstSentence.slice(0, 50) + (firstSentence.length > 50 ? '...' : '');
+}
+
+
+exports.SaveDBChatMetadata = async (req, res) => {
+
+    const user = req.body.user;
+    const userEmail = req.body.userEmail;
+    const title = req.body.title;
+
+    const newTitle = generateTitleFromPrompt(title);
+
     try {
-        const response = await processPSQLQuery(userQuery);
-        res.send(response);
+        const chatMetadata = new DBChatsMetadata({
+            user: user,
+            userEmail: userEmail,
+            title: newTitle
+        });
+        await chatMetadata.save();
+        res.send({ message: 'DBAgent metadata saved successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+}
+
+exports.getDBChatMetadata = async (req, res) => {
+    try {
+        const chatMetadata = await DBChatsMetadata.find({});
+        res.send(chatMetadata);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+exports.SaveGithubChatMetadata = async (req, res) => {
+
+    const user = req.body.user;
+    const userEmail = req.body.userEmail;
+    const title = req.body.title;
+
+    const newTitle = generateTitleFromPrompt(title);
+
+    try {
+        const chatMetadata = new GithubChatsMetadata({
+            user: user,
+            userEmail: userEmail,
+            title: newTitle
+        });
+        await chatMetadata.save();
+        res.send({ message: 'GithubAgent metadata saved successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+
+}
+exports.getGithubChatMetadata = async (req, res) => {
+    try {
+        const chatMetadata = await GithubChatsMetadata.find({});
+        res.send(chatMetadata);
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Internal Server Error' });

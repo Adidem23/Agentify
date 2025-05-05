@@ -1,17 +1,37 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Sidebar, SidebarBody, SidebarLink } from "../pages/Sidebar";
+import { Sidebar, SidebarBody, SidebarLink } from "./Sidebar";
 import { IconUserBolt } from "@tabler/icons-react";
 import { AwardIcon, Send } from "lucide-react"
 import { cn } from "../lib/utils";
 import { SignOutButton, useUser } from '@clerk/clerk-react';
 import axios from "axios";
 import { motion } from "framer-motion";
+import DummyPreviousChats from "./DummyChats";
 import ChatMessage from "./ChatMessage";
-
 
 export function SidebarDemo() {
 
   const { user } = useUser();
+
+
+  const [AllPreviousChats, setAllPreviousChats] = useState([])
+
+  useEffect(() => {
+    const fetchPreviousChats = async () => {
+      try {
+        const response = await axios.get("http://localhost:1302/api/getGithubChatMetadata");
+        setAllPreviousChats(response.data);
+        console.log("Fetched previous chats:", response.data);
+
+      } catch (error) {
+        console.error("Error fetching previous chats:", error);
+      }
+    };
+
+    fetchPreviousChats();
+  }, [])
+
+
 
   const links = [
     {
@@ -34,17 +54,25 @@ export function SidebarDemo() {
         <SidebarBody className="justify-between gap-10">
           <div className="flex flex-1 flex-col overflow-x-hidden overflow-y-auto">
             <>
-            <div className="flex flex-row px-2 py-2">
-            <LogoIcon/>
-            <Logo  />
-            </div>
+              <div className="flex flex-row px-2 py-2">
+                <LogoIcon />
+                <Logo />
+              </div>
             </>
             <div className="mt-8 flex flex-col gap-2" >
               {links.map((link, idx) => (
                 <SidebarLink key={idx} link={link} />
               ))}
             </div>
+            <br />
+
+            <p className="text-neutral-700 dark:text-neutral-200 text-sm group-hover/sidebar:translate-x-1 transition duration-150 whitespace-pre inline-block !p-0 !m-0 " style={{ fontSize: '20px', fontWeight: 'bolder' }}>Previous Chats</p>
+
+            <DummyPreviousChats previousChats={AllPreviousChats} />
           </div>
+
+
+
           <div className="flex flex-row">
             <SidebarLink
               link={{
@@ -82,7 +110,7 @@ export const Logo = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         className="font-medium whitespace-pre text-black dark:text-white ml-5" style={{ fontSize: '20px' }}>
-         Github Agent
+        Github Agent
       </motion.span>
 
     </a>
@@ -116,6 +144,7 @@ function ChatInterface() {
   const [input, setInput] = useState("")
   const [isLoading, setIsLoading] = useState(false)
   const messagesEndRef = useRef(null)
+  const { user } = useUser();
 
   useEffect(() => {
     scrollToBottom()
@@ -140,6 +169,11 @@ function ChatInterface() {
       content: input,
     }
 
+    
+    const GithubotResponse = await axios.post("http://localhost:1302/api/saveGithubChatMetadata", {user:user.fullName,userEmail:user.primaryEmailAddress.emailAddress,title:input}, { withCredentials: true });
+
+    console.log("Response from server:", GithubotResponse.data);
+
     setMessages((prev) => [...prev, userMessage])
     setInput("")
     setIsLoading(true)
@@ -149,8 +183,6 @@ function ChatInterface() {
 
       const response = await axios.post("http://localhost:1302/api/getGithubAgentResponse", { query: input })
 
-
-      
       if (response.data) {
 
         console.log("Response from server:", response.data);
@@ -204,7 +236,7 @@ function ChatInterface() {
               type="text"
               value={input}
               onChange={handleInputChange}
-              placeholder="Ask Github Agent 🤖 a Task ..." 
+              placeholder="Ask Github Agent 🤖 a Task ..."
               className="w-full p-3 pr-10 bg-gray-900 border border-gray-800 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700"
             />
           </div>

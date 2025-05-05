@@ -20,6 +20,8 @@ export function DBCardDemo() {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           className="inline-flex group items-center justify-center w-full sm:w-auto bg-gradient-to-tr from-zinc-300/20 via-purple-400/30 to-transparent dark:from-zinc-300/5 dark:via-purple-400/20 text-gray-900 dark:text-white border border-input hover:bg-gradient-to-tr hover:from-zinc-300/30 hover:via-purple-400/40 hover:to-transparent dark:hover:from-zinc-300/10 dark:hover:via-purple-400/30 transition-all py-4 px-10 rounded-full text-center"
+
+          onClick={()=>{window.location.href="/MongoDb"}}
         >
           Get Started
         </motion.button>
@@ -102,7 +104,7 @@ export function GithubDemoCards() {
           whileTap={{ scale: 0.95 }}
           className="inline-flex group items-center justify-center w-full sm:w-auto bg-gradient-to-tr from-zinc-300/20 via-purple-400/30 to-transparent dark:from-zinc-300/5 dark:via-purple-400/20 text-gray-900 dark:text-white border border-input hover:bg-gradient-to-tr hover:from-zinc-300/30 hover:via-purple-400/40 hover:to-transparent dark:hover:from-zinc-300/10 dark:hover:via-purple-400/30 transition-all py-4 px-10 rounded-full text-center"
           
-          onClick={()=>{window.location.href="/side"}}
+          onClick={()=>{window.location.href="/Github"}}
         >
           Get Started
         </motion.button>
