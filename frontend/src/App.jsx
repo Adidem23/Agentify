@@ -6,6 +6,9 @@ import UserProfileO from "./components/UserProfileO";
 import CardPage from "./pages/CardPage";
 import { SidebarDemo } from "./pages/SidebarGithub";
 import { SidebarDemoMongo } from "./pages/SidebarMongoDB";
+import { SidebarDemoJIRA } from "./pages/SidebarJIRA";
+
+
 
 function App() {
   return (
@@ -22,6 +25,8 @@ function App() {
         <Route path="/card" element={<CardPage />} />
         <Route path="/Github" Component={SidebarDemo} />
         <Route path="/MongoDb" Component={SidebarDemoMongo} />
+        <Route path="/JIRA" Component={SidebarDemoJIRA} />
+        
       </Routes>
     </ReactLenis>
   );

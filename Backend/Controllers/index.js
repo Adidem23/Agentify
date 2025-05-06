@@ -1,7 +1,12 @@
 const { processQuery } = require('../Agentservers/githubServer.js')
 const { processLocalMongoDB } = require('../Agentservers/localMongoDB.js')
+const { processJiraServerQueries}= require('../Agentservers/jiraServer.js')
+
 const DBChatsMetadata = require('../models/Dbchats.js');
 const GithubChatsMetadata = require('../models/GithubAgentchats.js');
+const JIRAChatsMetadata = require('../models/JiraAgentChats.js')
+
+
 
 exports.BreatingMessage = (req, res) => {
     res.send("<h1>Hola Amigos!! Agentify is Ready to Serve you!!</h1>");
@@ -32,6 +37,20 @@ exports.getLocalMongoDbSearch = async (req, res) => {
     }
 }
 
+exports.getJIRASeverResponse= async (req, res) => {
+    const userQuery = req.body.query;
+    console.log(userQuery);
+    try {
+        const response = await processJiraServerQueries(userQuery);
+        res.send(response);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+
+// Chats Storage Logic Starts 
 
 function generateTitleFromPrompt(prompt) {
     const trimmed = prompt.trim();
@@ -41,7 +60,6 @@ function generateTitleFromPrompt(prompt) {
 
 
 exports.SaveDBChatMetadata = async (req, res) => {
-
     const user = req.body.user;
     const userEmail = req.body.userEmail;
     const title = req.body.title;
@@ -74,7 +92,6 @@ exports.getDBChatMetadata = async (req, res) => {
 }
 
 exports.SaveGithubChatMetadata = async (req, res) => {
-
     const user = req.body.user;
     const userEmail = req.body.userEmail;
     const title = req.body.title;
@@ -98,6 +115,38 @@ exports.SaveGithubChatMetadata = async (req, res) => {
 exports.getGithubChatMetadata = async (req, res) => {
     try {
         const chatMetadata = await GithubChatsMetadata.find({});
+        res.send(chatMetadata);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+exports.SaveJIRAChatMetadata = async (req, res) => {
+
+    const user = req.body.user;
+    const userEmail = req.body.userEmail;
+    const title = req.body.title;
+
+    const newTitle = generateTitleFromPrompt(title);
+
+    try {
+        const chatMetadata = new JIRAChatsMetadata({
+            user: user,
+            userEmail: userEmail,
+            title: newTitle
+        });
+        await chatMetadata.save();
+        res.send({ message: 'JIRA metadata saved successfully' });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+exports.getJIRAChatMetadata = async (req, res) => {
+    try {
+        const chatMetadata = await JIRAChatsMetadata.find({});
         res.send(chatMetadata);
     } catch (error) {
         console.error(error);
