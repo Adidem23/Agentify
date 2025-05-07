@@ -6,12 +6,12 @@ import { cn } from "../lib/utils";
 import { SignOutButton, useUser } from '@clerk/clerk-react';
 import axios from "axios";
 import { motion } from "framer-motion";
-import { SiMongodb } from "react-icons/si";
+import { SiGmail } from "react-icons/si";
 import ChatMessage from "./ChatMessage";
 import DummyPreviousChats from "./DummyChats";
 
 
-export function SidebarDemoMongo() {
+export function SideBarGmailDemo() {
 
     const { user } = useUser();
     const [AllPreviousChats, setAllPreviousChats] = useState([])
@@ -19,7 +19,7 @@ export function SidebarDemoMongo() {
     useEffect(() => {
         const fetchPreviousChats = async () => {
             try {
-                const response = await axios.get("http://localhost:1302/api/getDBChatMetadata");
+                const response = await axios.get("http://localhost:1302/api/getGmailChatMetadata");
                 setAllPreviousChats(response.data);
                 console.log("Fetched previous chats:", response.data);
 
@@ -111,7 +111,7 @@ export const Logo = () => {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 className="font-medium whitespace-pre text-black dark:text-white ml-5" style={{ fontSize: '20px' }}>
-                MongoDB Agent
+                Gmail Agent
             </motion.span>
 
         </a>
@@ -120,7 +120,7 @@ export const Logo = () => {
 export const LogoIcon = () => {
     return (
         <>
-        <SiMongodb className="h-10 w-10 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
+        <SiGmail className="h-10 w-10 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
         </>
     );
 };
@@ -170,9 +170,9 @@ function ChatInterface() {
 
         console.log(input)
 
-        const DbInsertResponse = await axios.post("http://localhost:1302/api/saveDBChatMetadata", {user:user.fullName,userEmail:user.primaryEmailAddress.emailAddress,title:input}, { withCredentials: true });
+        const GMAILinsertResponse = await axios.post("http://localhost:1302/api/saveGmailChatMetadata", {user:user.fullName,userEmail:user.primaryEmailAddress.emailAddress,title:input}, { withCredentials: true });
 
-        console.log("Response from server:", DbInsertResponse.data);
+        console.log("Response from server:", GMAILinsertResponse.data);
 
         setMessages((prev) => [...prev, userMessage])
         setInput("")
@@ -180,10 +180,9 @@ function ChatInterface() {
 
         try {
 
-            const response = await axios.post("http://localhost:1302/api/getLocalMongoDbSearch", { query: input })
+            const response = await axios.post("http://localhost:1302/api/getGMAILSERVERResponse", { query: input })
 
-            
-
+    
             if (response.data) {
 
                 console.log("Response from server:", response.data);
@@ -225,7 +224,7 @@ function ChatInterface() {
                             type="text"
                             value={input}
                             onChange={handleInputChange}
-                            placeholder="Ask Database Agent 🤖 a Task ..."
+                            placeholder="Ask Gmail Agent 🤖 a Task ..."
                             className="w-full p-3 pr-10 bg-gray-900 border border-gray-800 rounded-md focus:outline-none focus:ring-1 focus:ring-gray-700"
                         />
                     </div>

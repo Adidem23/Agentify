@@ -1,11 +1,12 @@
 const { processQuery } = require('../Agentservers/githubServer.js')
 const { processLocalMongoDB } = require('../Agentservers/localMongoDB.js')
-const { processJiraServerQueries}= require('../Agentservers/jiraServer.js')
+const { processJiraServerQueries } = require('../Agentservers/jiraServer.js')
+const {processGMAILSERVERResponse}=require('../Agentservers/gmailServer.js')
 
-const DBChatsMetadata = require('../models/Dbchats.js');
-const GithubChatsMetadata = require('../models/GithubAgentchats.js');
+const DBChatsMetadata = require('../models/Dbchats.js')
+const GithubChatsMetadata = require('../models/GithubAgentchats.js')
 const JIRAChatsMetadata = require('../models/JiraAgentChats.js')
-
+const GmailChatsMetadata = require('../models/Gmailchats.js')
 
 
 exports.BreatingMessage = (req, res) => {
@@ -37,7 +38,7 @@ exports.getLocalMongoDbSearch = async (req, res) => {
     }
 }
 
-exports.getJIRASeverResponse= async (req, res) => {
+exports.getJIRASeverResponse = async (req, res) => {
     const userQuery = req.body.query;
     console.log(userQuery);
     try {
@@ -48,6 +49,19 @@ exports.getJIRASeverResponse= async (req, res) => {
         res.status(500).json({ error: 'Internal Server Error' });
     }
 }
+
+exports.getGMAILSERVERResponse= async (req, res) => {
+    const userQuery = req.body.query;
+    console.log(userQuery);
+    try {
+        const response = await processGMAILSERVERResponse(userQuery);
+        res.send(response);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
 
 
 // Chats Storage Logic Starts 
@@ -147,6 +161,41 @@ exports.SaveJIRAChatMetadata = async (req, res) => {
 exports.getJIRAChatMetadata = async (req, res) => {
     try {
         const chatMetadata = await JIRAChatsMetadata.find({});
+        res.send(chatMetadata);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+exports.saveGmailChatMetadata = async (req, res) => {
+
+    const user = req.body.user;
+    const userEmail = req.body.userEmail;
+    const title = req.body.title;
+
+    const newTitle = generateTitleFromPrompt(title);
+
+
+    try {
+        const chatMetadata = new GmailChatsMetadata({
+            user: user,
+            userEmail: userEmail,
+            title: newTitle
+        });
+        await chatMetadata.save();
+        res.send({ message: 'Gmail metadata saved successfully' });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+}
+
+
+exports.getGmailChatMetadata = async (req, res) => {
+    try {
+        const chatMetadata = await GmailChatsMetadata.find({});
         res.send(chatMetadata);
     } catch (error) {
         console.error(error);

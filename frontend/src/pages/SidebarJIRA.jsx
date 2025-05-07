@@ -6,6 +6,7 @@ import { cn } from "../lib/utils";
 import { SignOutButton, useUser } from '@clerk/clerk-react';
 import axios from "axios";
 import { motion } from "framer-motion";
+import { SiJira } from "react-icons/si";
 import DummyPreviousChats from "./DummyChats";
 import ChatMessage from "./ChatMessage";
 
@@ -118,12 +119,9 @@ export const Logo = () => {
 };
 export const LogoIcon = () => {
   return (
-    <a
-      href="#"
-      className="relative z-20 flex items-center space-x-2 py-1 text-sm font-normal text-black">
-      <div
-        className="h-5 w-6 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
-    </a>
+    <>
+      <SiJira className="h-9 w-10 shrink-0 rounded-tl-lg rounded-tr-sm rounded-br-lg rounded-bl-sm bg-black dark:bg-white" />
+    </>
   );
 };
 
@@ -169,8 +167,8 @@ function ChatInterface() {
       content: input,
     }
 
-    
-    const JIRAbotResponse = await axios.post("http://localhost:1302/api/SaveJIRAChatMetadata", {user:user.fullName,userEmail:user.primaryEmailAddress.emailAddress,title:input}, { withCredentials: true });
+
+    const JIRAbotResponse = await axios.post("http://localhost:1302/api/SaveJIRAChatMetadata", { user: user.fullName, userEmail: user.primaryEmailAddress.emailAddress, title: input }, { withCredentials: true });
 
     console.log("Response from server:", JIRAbotResponse.data);
 

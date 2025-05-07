@@ -7,6 +7,7 @@ import CardPage from "./pages/CardPage";
 import { SidebarDemo } from "./pages/SidebarGithub";
 import { SidebarDemoMongo } from "./pages/SidebarMongoDB";
 import { SidebarDemoJIRA } from "./pages/SidebarJIRA";
+import { SideBarGmailDemo } from "./pages/SideGmail";
 
 
 
@@ -26,6 +27,7 @@ function App() {
         <Route path="/Github" Component={SidebarDemo} />
         <Route path="/MongoDb" Component={SidebarDemoMongo} />
         <Route path="/JIRA" Component={SidebarDemoJIRA} />
+        <Route path="/Gmail" Component={SideBarGmailDemo} />
         
       </Routes>
     </ReactLenis>
