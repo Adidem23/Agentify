@@ -166,6 +166,7 @@ async function processJiraServerQuries(query) {
     3. You can get all JIRA tickets in a project.
     4. You can delete a JIRA ticket by its key.
     5. You can update a JIRA ticket by its key, summary, and description.
+    6. You can reply to normal user queries also 
    
     Available tools:
     1. createJiraTicket(summary): Create a JIRA ticket with a summary.
@@ -204,6 +205,7 @@ async function processJiraServerQuries(query) {
 
     const answer = await chat.sendMessage(query);
     const FinalResponse = extractJsonObjects(answer.response.text());
+    
 
     for (const answer of FinalResponse) {
         if (answer.type === "output") {

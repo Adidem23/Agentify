@@ -1,13 +1,31 @@
 const { processQuery } = require('../Agentservers/githubServer.js')
 const { processLocalMongoDB } = require('../Agentservers/localMongoDB.js')
 const { processJiraServerQueries } = require('../Agentservers/jiraServer.js')
-const {processGMAILSERVERResponse}=require('../Agentservers/gmailServer.js')
+const { processGMAILSERVERResponse } = require('../Agentservers/gmailServer.js')
+const { Pinecone } = require('@pinecone-database/pinecone')
+const { v4: uuidv4 } = require("uuid");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
+const dotenv = require("dotenv");
+dotenv.config();
+
 
 const DBChatsMetadata = require('../models/Dbchats.js')
 const GithubChatsMetadata = require('../models/GithubAgentchats.js')
 const JIRAChatsMetadata = require('../models/JiraAgentChats.js')
 const GmailChatsMetadata = require('../models/Gmailchats.js')
 
+const pineconeInstance = new Pinecone({
+    apiKey: process.env.PINECONE_API_KEY,
+})
+
+const geminiClient = new GoogleGenerativeAI(process.env.GOOGLE_GEMINI_CLIENT_ID);
+
+const generateEmbeddings = async (text) => {
+    const model = geminiClient.getGenerativeModel({ model: "gemini-embedding-exp-03-07" });
+    const result = await model.embedContent(text);
+    const embedding = result.embedding;
+    return embedding.values;
+}
 
 exports.BreatingMessage = (req, res) => {
     res.send("<h1>Hola Amigos!! Agentify is Ready to Serve you!!</h1>");
@@ -16,6 +34,21 @@ exports.BreatingMessage = (req, res) => {
 exports.getGithubAgentResponse = async (req, res) => {
     const userQuery = req.body.query;
     console.log(userQuery);
+
+    const Pinecone_UPSERT_OBJECT = [{
+        id: uuidv4(),
+        values: await generateEmbeddings(userQuery),
+        metadata: {
+            type: "query",
+            text: req.body.query,
+            timestamp: new Date().toISOString(),
+        }
+    }]
+
+    const index = pineconeInstance.Index('github-index')
+    await index.upsert(Pinecone_UPSERT_OBJECT);
+    console.log(" Vectors has been inserted in Github Index ");
+
     try {
         const response = await processQuery(userQuery);
         res.send(response);
@@ -29,6 +62,21 @@ exports.getGithubAgentResponse = async (req, res) => {
 exports.getLocalMongoDbSearch = async (req, res) => {
     const userQuery = req.body.query;
     console.log(userQuery);
+
+    const Pinecone_UPSERT_OBJECT = [{
+        id: uuidv4(),
+        values: await generateEmbeddings(userQuery),
+        metadata: {
+            type: "query",
+            text: req.body.query,
+            timestamp: new Date().toISOString(),
+        }
+    }]
+
+    const index = pineconeInstance.Index('mongodb-index')
+    await index.upsert(Pinecone_UPSERT_OBJECT);
+    console.log(" Vectors has been inserted in MongoDB Index ");
+
     try {
         const response = await processLocalMongoDB(userQuery);
         res.send(response);
@@ -39,8 +87,24 @@ exports.getLocalMongoDbSearch = async (req, res) => {
 }
 
 exports.getJIRASeverResponse = async (req, res) => {
+   
     const userQuery = req.body.query;
     console.log(userQuery);
+
+    const Pinecone_UPSERT_OBJECT = [{
+        id: uuidv4(),
+        values: await generateEmbeddings(userQuery),
+        metadata: {
+            type: "query",
+            text: req.body.query,
+            timestamp: new Date().toISOString(),
+        }
+    }]
+
+    const index = pineconeInstance.Index('jira-index')
+    await index.upsert(Pinecone_UPSERT_OBJECT);
+    console.log(" Vectors has been inserted in JIRA Index ");
+
     try {
         const response = await processJiraServerQueries(userQuery);
         res.send(response);
@@ -50,9 +114,24 @@ exports.getJIRASeverResponse = async (req, res) => {
     }
 }
 
-exports.getGMAILSERVERResponse= async (req, res) => {
+exports.getGMAILSERVERResponse = async (req, res) => {
     const userQuery = req.body.query;
     console.log(userQuery);
+
+    const Pinecone_UPSERT_OBJECT = [{
+        id: uuidv4(),
+        values: await generateEmbeddings(userQuery),
+        metadata: {
+            type: "query",
+            text: req.body.query,
+            timestamp: new Date().toISOString(),
+        }
+    }]
+
+    const index = pineconeInstance.Index('gmail-index')
+    await index.upsert(Pinecone_UPSERT_OBJECT);
+    console.log(" Vectors has been inserted in GMAIL Index ");
+
     try {
         const response = await processGMAILSERVERResponse(userQuery);
         res.send(response);
@@ -183,6 +262,7 @@ exports.saveGmailChatMetadata = async (req, res) => {
             userEmail: userEmail,
             title: newTitle
         });
+
         await chatMetadata.save();
         res.send({ message: 'Gmail metadata saved successfully' });
 

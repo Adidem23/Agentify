@@ -63,10 +63,7 @@ async function FetchAllEmails() {
     return AllEmails_Object;
 }
 
-
 async function SendaMail(inputobj) {
-
-
 
     const transporter = nodemailer.createTransport({
         service: 'gmail',
@@ -183,8 +180,7 @@ async function processGMAILSERVERResponse(query) {
 
     const answer = await chat.sendMessage(query);
     const FinalResponse = extractJsonObjects(answer.response.text());
-    console.log(FinalResponse)
-
+    
     for (const answer of FinalResponse) {
         if (answer.type === "output") {
             return answer.output;

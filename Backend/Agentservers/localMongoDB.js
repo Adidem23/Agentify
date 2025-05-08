@@ -52,7 +52,6 @@ function extractJsonObjects(input) {
 async function processLocalMongoDB(query) {
 
   
-
     const SYSTEM_PROMPT = `
     
     Your name is Falio . You are an TO-DO-LIST manager . You can perform some tasks such as You can manage TO-DO List of user .  
