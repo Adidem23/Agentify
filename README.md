@@ -1,6 +1,6 @@
 <div align="center">
  <img src="https://github.com/user-attachments/assets/95a6164f-0ac0-4c81-8a8b-b98a798a89e4" height="150px" width="150px" />
-  <h3 align="center">Falio : A Simple AI Agent</h3>
+  <h3 align="center"> Agentify : A Multi Agent SAAS Platform </h3>
 </div>
 <details>
   <summary>Table of Contents</summary>
@@ -16,18 +16,14 @@
 
 ## About The Project : 
 
-## FALIO : A Simple AI Agent
-The Voice-Controlled MongoDB Agent is an AI-powered assistant that enables hands-free database management using voice commands. Designed for efficiency, it processes spoken instructions to perform CRUD (Create, Read, Update, Delete) operations in MongoDB, making database interactions seamless and intuitive.
+## Agentify : A Multi Agent SAAS Platform
+
 
 ## Key Features :
 
-- 🎙️ Voice-Based Commands: Perform CRUD operations using natural speech.
-- ⚡ Real-Time Processing: Converts speech to structured MongoDB queries instantly.
-- 📊 Data Retrieval: Fetch and filter records using spoken queries.
-
 # Video :
-- Youtube : https://youtu.be/hzAIX3B4uNQ?si=n5LNakOh16yWkZBU
-- Frontend Deployment : https://falio.vercel.app/
+- Youtube : 
+- Frontend Deployment : 
 
 # Architcture Diagram : 
 ![diagram-export-17-02-2025-23_50_35](https://github.com/user-attachments/assets/c3fcb082-b0b3-4b3c-bd50-0bfee84f4f90)
