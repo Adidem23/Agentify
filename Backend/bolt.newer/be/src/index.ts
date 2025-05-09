@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 
-const genAI = new GoogleGenerativeAI("AIzaSyDCaBaisCVl5Jqjr-nFyNhPvRqfwBliKP0");
+const genAI = new GoogleGenerativeAI("");
 
 
 
