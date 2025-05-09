@@ -4,6 +4,7 @@ import { GmailCardDemo } from './CardDemo'
 import { CodeDebuggerCardDemo } from './CardDemo'
 import { GithubDemoCards } from './CardDemo'
 import { TicketingAgentsCardDemo } from './CardDemo'
+import { WebsitegeneratorDemo } from './CardDemo'
 
 const CardPage = () => {
     return (
@@ -19,6 +20,7 @@ const CardPage = () => {
                 <TicketingAgentsCardDemo />
                 <GmailCardDemo />
                 <CodeDebuggerCardDemo />
+                <WebsitegeneratorDemo/>
             </div>
         </div>
 

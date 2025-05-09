@@ -145,6 +145,33 @@ export function TicketingAgentsCardDemo() {
 }
 
 
+export function WebsitegeneratorDemo() {
+  return (
+    <>
+      <Card>
+        <CardSkeletonContainer>
+          <Skeleton />
+        </CardSkeletonContainer>
+        <CardTitle>Website generator</CardTitle>
+        <CardDescription>
+          Manage your emails effortlessly! Our Gmail card integrates seamlessly with your inbox, allowing you to read, reply, and organize your emails all in one place. Stay on top of your communication with this powerful tool.
+        </CardDescription>
+        <br />
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          className="inline-flex group items-center justify-center w-full sm:w-auto bg-gradient-to-tr from-zinc-300/20 via-purple-400/30 to-transparent dark:from-zinc-300/5 dark:via-purple-400/20 text-gray-900 dark:text-white border border-input hover:bg-gradient-to-tr hover:from-zinc-300/30 hover:via-purple-400/40 hover:to-transparent dark:hover:from-zinc-300/10 dark:hover:via-purple-400/30 transition-all py-4 px-10 rounded-full text-center"
+          onClick={()=>{window.location.href="http://localhost:5174"}}
+        >
+          Get Started
+        </motion.button>
+
+      </Card>
+    </>
+
+  );
+}
+
 
 
 const Skeleton = () => {
