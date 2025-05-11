@@ -15,6 +15,8 @@
 </details>
 
 ## About The Project : 
+The AI Agent for Software Developers is an intelligent assistant designed to automate and simplify the daily workflows of developers. It leverages AI-powered automation, voice commands, and contextual understanding to streamline everything from email handling to code debugging—allowing developers to focus more on building and less on managing.
+
 
 ## Agentify : A Multi Agent SAAS Platform
 
