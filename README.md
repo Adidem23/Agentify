@@ -1,4 +1,5 @@
 <div align="center">
+  <img src="https://github.com/user-attachments/assets/95a6164f-0ac0-4c81-8a8b-b98a798a89e4" height="150px" width="150px" />
   <h3 align="center"> Agentify : A Multi Agent SAAS Platform </h3>
 </div>
 <details>
