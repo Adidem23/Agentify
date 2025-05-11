@@ -17,11 +17,41 @@
 ## About The Project : 
 The AI Agent for Software Developers is an intelligent assistant designed to automate and simplify the daily workflows of developers. It leverages AI-powered automation, voice commands, and contextual understanding to streamline everything from email handling to code debugging—allowing developers to focus more on building and less on managing.
 
+## 🔑 Key Features
 
-## Agentify : A Multi Agent SAAS Platform
+### 📧 Gmail Automation
+- Fetch and summarize recent emails  
+- Categorize emails using AI (e.g., Work, Personal, Urgent)  
+- Auto-reply to urgent or high-priority emails  
+- Schedule and send automated follow-ups  
+
+### 🗃️ Database Automation
+- Voice-based read/write operations  
+- Natural language to SQL query conversion  
+- Suggests the most suitable database type based on project architecture  
+
+### 🐞 Code Debugger
+- Real-time suggestions for logical and syntactical errors  
+- Context-aware recommendations for runtime errors  
+- Inline explanations to help developers understand the issue  
+
+### 🔧 Code Snippet Generator
+- Quickly generate reusable code snippets  
+- Support for multiple languages and frameworks  
+- Customizable templates for frequently used functions or patterns  
+
+### 🗂️ Jira Integration
+- Auto-generation of Jira tickets from user input or code comments  
+- Categorization by priority, component, and assignee  
+- Syncs updates with your development board  
+
+### 🌐 GitHub Automation
+- Automated issue creation and labeling  
+- Smart pull request summaries  
+- Status updates and notifications for assigned tasks  
+- Commit message suggestions based on code changes  
 
 
-## Key Features :
 
 # Video :
 - Youtube : https://youtu.be/K3LleDqj2HM?si=BhM43pD3qyRXiXPh 
