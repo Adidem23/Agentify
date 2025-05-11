@@ -51,13 +51,11 @@ The AI Agent for Software Developers is an intelligent assistant designed to aut
 - Status updates and notifications for assigned tasks  
 - Commit message suggestions based on code changes  
 
-
-
 # Video :
 - Youtube : https://youtu.be/K3LleDqj2HM?si=BhM43pD3qyRXiXPh 
-- Frontend Deployment : 
 
 # Architcture Diagram : 
+
 
 # Built With : 
 
