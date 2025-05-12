@@ -51,9 +51,7 @@ The AI Agent for Software Developers is an intelligent assistant designed to aut
 - Status updates and notifications for assigned tasks  
 - Commit message suggestions based on code changes  
 
-# Video :
-- Youtube : https://youtu.be/K3LleDqj2HM?si=BhM43pD3qyRXiXPh
-
+###  Video : https://youtu.be/K3LleDqj2HM?si=BhM43pD3qyRXiXPh
 ###  Frontend Deployment : https://agentify-front.vercel.app/
 
 # Architcture Diagram : 
@@ -64,3 +62,7 @@ The AI Agent for Software Developers is an intelligent assistant designed to aut
 - [![My Skills](https://skillicons.dev/icons?i=nodejs&perline=3)](https://skillicons.dev) NodeJs
 - [![My Skills](https://skillicons.dev/icons?i=express&perline=3)](https://skillicons.dev) ExpressJs
 - [![My Skills](https://skillicons.dev/icons?i=mongodb&perline=3)](https://skillicons.dev) MongoDB
+
+# Installation and Steps : 
+
+
