@@ -52,7 +52,10 @@ The AI Agent for Software Developers is an intelligent assistant designed to aut
 - Commit message suggestions based on code changes  
 
 # Video :
-- Youtube : https://youtu.be/K3LleDqj2HM?si=BhM43pD3qyRXiXPh 
+- Youtube : https://youtu.be/K3LleDqj2HM?si=BhM43pD3qyRXiXPh
+
+# Frontend Deployment :
+https://agentify-front.vercel.app/
 
 # Architcture Diagram : 
 
