@@ -65,7 +65,3 @@ The AI Agent for Software Developers is an intelligent assistant designed to aut
 - [![My Skills](https://skillicons.dev/icons?i=nodejs&perline=3)](https://skillicons.dev) NodeJs
 - [![My Skills](https://skillicons.dev/icons?i=express&perline=3)](https://skillicons.dev) ExpressJs
 - [![My Skills](https://skillicons.dev/icons?i=mongodb&perline=3)](https://skillicons.dev) MongoDB
-
-# Installation and Steps : 
-
-
