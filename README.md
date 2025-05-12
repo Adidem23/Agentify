@@ -54,8 +54,7 @@ The AI Agent for Software Developers is an intelligent assistant designed to aut
 # Video :
 - Youtube : https://youtu.be/K3LleDqj2HM?si=BhM43pD3qyRXiXPh
 
-# Frontend Deployment :
-https://agentify-front.vercel.app/
+###  Frontend Deployment : https://agentify-front.vercel.app/
 
 # Architcture Diagram : 
 
